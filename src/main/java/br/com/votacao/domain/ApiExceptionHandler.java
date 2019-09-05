@@ -28,46 +28,46 @@ public class ApiExceptionHandler {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ApiExceptionHandler.class);
 	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public ResponseEntity<ErrorResponse> handleNotValidException(MethodArgumentNotValidException exception, Locale locale){
+	public ResponseEntity<ErrorResponseDto> handleNotValidException(MethodArgumentNotValidException exception, Locale locale){
 		Stream<ObjectError> errors = exception.getBindingResult().getAllErrors().stream();
 		
-		List<ErrorResponse.ApiError> apiErrors = errors.map(ObjectError::getDefaultMessage)
+		List<ErrorResponseDto.ApiError> apiErrors = errors.map(ObjectError::getDefaultMessage)
 										 .map(code -> toApiError(code, locale))
 										 .collect(Collectors.toList());
-		ErrorResponse errorResponse = ErrorResponse.of(HttpStatus.BAD_REQUEST, apiErrors);
+		ErrorResponseDto errorResponseDto = ErrorResponseDto.of(HttpStatus.BAD_REQUEST, apiErrors);
 		
-		return ResponseEntity.badRequest().body(errorResponse);
+		return ResponseEntity.badRequest().body(errorResponseDto);
 	}
 	
 	@ExceptionHandler(InvalidFormatException.class)
-	public ResponseEntity<ErrorResponse> handleInvalidFormatException(InvalidFormatException exception, Locale locale){
+	public ResponseEntity<ErrorResponseDto> handleInvalidFormatException(InvalidFormatException exception, Locale locale){
 		final String errorCode = "generic-1";
 		final HttpStatus status = HttpStatus.BAD_REQUEST;
 		
-		final ErrorResponse errorResponse = ErrorResponse.of(status, toApiError(errorCode, locale, exception.getValue()));
-		return ResponseEntity.badRequest().body(errorResponse);
+		final ErrorResponseDto errorResponseDto = ErrorResponseDto.of(status, toApiError(errorCode, locale, exception.getValue()));
+		return ResponseEntity.badRequest().body(errorResponseDto);
 	}
 	
 	@ExceptionHandler(Exception.class)
-	public ResponseEntity<ErrorResponse> handleException(Exception exception, Locale locale){
+	public ResponseEntity<ErrorResponseDto> handleException(Exception exception, Locale locale){
 		LOGGER.error("error-1", exception);
 		final String errorCode = "error-1";
 		final HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
 		
-		final ErrorResponse errorResponse = ErrorResponse.of(status, toApiError(errorCode, locale));
-		return ResponseEntity.status(status).body(errorResponse);
+		final ErrorResponseDto errorResponseDto = ErrorResponseDto.of(status, toApiError(errorCode, locale));
+		return ResponseEntity.status(status).body(errorResponseDto);
 	}
 	
 	@ExceptionHandler(BusinessException.class)
-	public ResponseEntity<ErrorResponse> handleBusinessException(BusinessException exception, Locale locale){
+	public ResponseEntity<ErrorResponseDto> handleBusinessException(BusinessException exception, Locale locale){
 		final String errorCode = exception.getCode();
 		final HttpStatus status = exception.getStatus();
 		
-		final ErrorResponse errorResponse = ErrorResponse.of(status, toApiError(errorCode, locale));
-		return ResponseEntity.status(status).body(errorResponse);
+		final ErrorResponseDto errorResponseDto = ErrorResponseDto.of(status, toApiError(errorCode, locale));
+		return ResponseEntity.status(status).body(errorResponseDto);
 	}
 
-	private ErrorResponse.ApiError toApiError(String code, Locale locale, Object... args){
+	private ErrorResponseDto.ApiError toApiError(String code, Locale locale, Object... args){
 		String message;
 		try {
 			message = apiErrorMessageSource.getMessage(code, args, locale);
@@ -76,6 +76,6 @@ public class ApiExceptionHandler {
 			message = NO_MESSAGE_AVAILABLE;
 		}
 		
-		return new ErrorResponse.ApiError(code, message);
+		return new ErrorResponseDto.ApiError(code, message);
 	}
 }

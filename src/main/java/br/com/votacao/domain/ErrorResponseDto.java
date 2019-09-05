@@ -13,18 +13,18 @@ import static lombok.AccessLevel.PRIVATE;
 
 @JsonAutoDetect(fieldVisibility = ANY)
 @RequiredArgsConstructor(access = PRIVATE)
-class ErrorResponse {
+class ErrorResponseDto {
 	
 	private final int statusCode;
 	
 	private final List<ApiError> errors;
 	
-	static ErrorResponse of(HttpStatus status, List<ApiError> errors) {
-		return new ErrorResponse(status.value(), errors);
+	static ErrorResponseDto of(HttpStatus status, List<ApiError> errors) {
+		return new ErrorResponseDto(status.value(), errors);
 	}
 	
-	static ErrorResponse of(HttpStatus status, ApiError error) {
-		return new ErrorResponse(status.value(), Collections.singletonList(error));
+	static ErrorResponseDto of(HttpStatus status, ApiError error) {
+		return new ErrorResponseDto(status.value(), Collections.singletonList(error));
 	}
 	
 	
@@ -34,5 +34,4 @@ class ErrorResponse {
 		private final String code;
 		private final String message;
 	}
-
 }

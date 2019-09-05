@@ -4,6 +4,7 @@ import br.com.votacao.exception.SessaoNotFoundException;
 import br.com.votacao.model.Pauta;
 import br.com.votacao.model.Sessao;
 import br.com.votacao.repository.SessaoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -13,11 +14,8 @@ import java.util.Optional;
 @Service
 public class SessaoService {
 
-    private final SessaoRepository sessaoRepository;
-
-    public SessaoService(SessaoRepository sessaoRepository) {
-        this.sessaoRepository = sessaoRepository;
-    }
+    @Autowired
+    private SessaoRepository sessaoRepository;
 
     public List<Sessao> findAll() {
         return sessaoRepository.findAll();

@@ -3,6 +3,7 @@ package br.com.votacao.service;
 import br.com.votacao.exception.PautaNotFoundException;
 import br.com.votacao.model.Pauta;
 import br.com.votacao.repository.PautaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,11 +12,8 @@ import java.util.Optional;
 @Service
 public class PautaService {
 
-    private final PautaRepository pautaRepository;
-
-    public PautaService(PautaRepository pautaRepository) {
-        this.pautaRepository = pautaRepository;
-    }
+    @Autowired
+    private PautaRepository pautaRepository;
 
     public List<Pauta> findAll() {
         return pautaRepository.findAll();
