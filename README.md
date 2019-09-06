@@ -34,11 +34,14 @@ docker run -it --rm --link kafka spotify/kafka /opt/kafka_2.11-0.10.1.0/bin/kafk
 
 # SWAGGER
 ```
-http://localhost:8080/swagger-ui.html#/
+http://localhost:8080/api-votacao/swagger-ui.html
 ```
 
 # ACTUATOR
 ```
-http://localhost:8080/actuator/health
+http://localhost:8080/api-votacao/actuator
+```
+```
+http://localhost:8080/api-votacao/actuator/health
 ```
 
