@@ -1,10 +1,11 @@
 package br.com.votacao.service;
 
+import br.com.votacao.exception.PautaNotFoundException;
 import br.com.votacao.exception.SessaoNotFoundException;
 import br.com.votacao.model.Pauta;
 import br.com.votacao.model.Sessao;
+import br.com.votacao.repository.PautaRepository;
 import br.com.votacao.repository.SessaoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -14,18 +15,28 @@ import java.util.Optional;
 @Service
 public class SessaoService {
 
-    @Autowired
-    private SessaoRepository sessaoRepository;
+    private final SessaoRepository sessaoRepository;
+    private final PautaRepository pautaRepository;
+
+    public SessaoService(SessaoRepository sessaoRepository, PautaRepository pautaRepository) {
+        this.sessaoRepository = sessaoRepository;
+        this.pautaRepository = pautaRepository;
+    }
 
     public List<Sessao> findAll() {
         return sessaoRepository.findAll();
     }
 
     public Sessao createSession(Long id, Sessao sessao){
-        return sessaoRepository.save(sessao.pauta(Pauta.builder().id(id).build()));
+        Optional<Pauta> findById = pautaRepository.findById(id);
+        if(!findById.isPresent()){
+            throw new PautaNotFoundException();
+        }
+        sessao.setPauta(findById.get());
+        return save(sessao);
     }
 
-    public Sessao save(final Sessao sessao) {
+    private Sessao save(final Sessao sessao) {
         if (sessao.getDataInicio() == null) {
             sessao.setDataInicio(LocalDateTime.now());
         }
@@ -37,12 +48,17 @@ public class SessaoService {
 
     }
 
-    public void delete(Sessao sessao) {
-        Optional<Sessao> sessaoById = sessaoRepository.findById(sessao.getId());
+    public void delete(Long id) {
+        Optional<Sessao> sessaoById = sessaoRepository.findById(id);
         if (!sessaoById.isPresent()) {
             throw new SessaoNotFoundException();
         }
-        sessaoRepository.delete(sessao);
+        sessaoRepository.delete(sessaoById.get());
+    }
+
+    void deleteByPautaId(Long id) {
+        Optional<List<Sessao>> sessaos = sessaoRepository.findByPautaId(id);
+        sessaos.ifPresent(sessaoList -> sessaoList.forEach(sessaoRepository::delete));
     }
 
     public Sessao findById(Long id) {

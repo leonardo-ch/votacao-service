@@ -1,4 +1,4 @@
-package br.com.votacao.resource;
+package br.com.votacao.controller;
 
 import br.com.votacao.domain.VotacaoDto;
 import br.com.votacao.service.VotacaoService;

@@ -3,7 +3,6 @@ package br.com.votacao.service;
 import br.com.votacao.exception.PautaNotFoundException;
 import br.com.votacao.model.Pauta;
 import br.com.votacao.repository.PautaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,8 +11,15 @@ import java.util.Optional;
 @Service
 public class PautaService {
 
-    @Autowired
-    private PautaRepository pautaRepository;
+    private final PautaRepository pautaRepository;
+    private final SessaoService sessaoService;
+    private final VotoService votoService;
+
+    public PautaService(PautaRepository pautaRepository, SessaoService sessaoService, VotoService votoService) {
+        this.pautaRepository = pautaRepository;
+        this.sessaoService = sessaoService;
+        this.votoService = votoService;
+    }
 
     public List<Pauta> findAll() {
         return pautaRepository.findAll();
@@ -23,12 +29,14 @@ public class PautaService {
         return pautaRepository.save(pauta);
     }
 
-    public void delete(Pauta pauta) {
-        Optional<Pauta> pautaById = pautaRepository.findById(pauta.getId());
+    public void delete(Long id) {
+        Optional<Pauta> pautaById = pautaRepository.findById(id);
         if (!pautaById.isPresent()) {
             throw new PautaNotFoundException();
         }
-        pautaRepository.delete(pauta);
+        pautaRepository.delete(pautaById.get());
+        sessaoService.deleteByPautaId(id);
+        votoService.deleteByPautaId(id);
     }
 
     public Pauta findById(Long id) {

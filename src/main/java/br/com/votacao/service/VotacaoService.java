@@ -8,7 +8,6 @@ import br.com.votacao.model.Pauta;
 import br.com.votacao.model.Voto;
 import br.com.votacao.repository.SessaoRepository;
 import br.com.votacao.repository.VotoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,11 +16,14 @@ import java.util.Optional;
 @Service
 public class VotacaoService {
 
-	@Autowired
-	private VotoRepository votoRepository;
-	@Autowired
-	private SessaoRepository sessaoRepository;
-	
+	private final VotoRepository votoRepository;
+	private final SessaoRepository sessaoRepository;
+
+	public VotacaoService(VotoRepository votoRepository, SessaoRepository sessaoRepository) {
+		this.votoRepository = votoRepository;
+		this.sessaoRepository = sessaoRepository;
+	}
+
 	public Voto save(final Voto voto) {
 		verifyIfExists(voto);
 		return votoRepository.save(voto);
@@ -30,13 +32,13 @@ public class VotacaoService {
 	private void verifyIfExists(final Voto voto) {
 		Optional<Voto> votoByCpfAndPauta = votoRepository.findByCpf(voto.getCpf());
 
-		if (votoByCpfAndPauta.isPresent() && (voto.isNew() || isNotUnique(voto, votoByCpfAndPauta))) {
+		if (votoByCpfAndPauta.isPresent() && (voto.isNew() || isNotUnique(voto, votoByCpfAndPauta.get()))) {
 			throw new BusinessException(null, null);
 		}
 	}
 
-	private boolean isNotUnique(Voto voto, Optional<Voto> votoByCpfAndPauta) {
-		return voto.alreadyExist() && votoByCpfAndPauta.isPresent() && !votoByCpfAndPauta.get().equals(voto);
+	private boolean isNotUnique(Voto voto, Voto votoByCpfAndPauta) {
+		return voto.alreadyExist() && !votoByCpfAndPauta.equals(voto);
 	}
 
 	public List<Voto> findAll() {
