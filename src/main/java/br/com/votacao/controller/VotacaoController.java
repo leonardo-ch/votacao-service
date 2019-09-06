@@ -20,6 +20,6 @@ public class VotacaoController {
 	@GetMapping("v1/pautas/{id}/votacao")
 	@ResponseStatus(code = HttpStatus.OK)
 	public VotacaoDto findVotosByPautaId(@PathVariable Long id) {
-		return votacaoService.buildVotacaoPauta(id);
+		return votacaoService.getResultVotacao(id);
 	}
 }

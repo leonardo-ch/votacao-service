@@ -1,6 +1,5 @@
 package br.com.votacao.controller;
 
-import br.com.votacao.model.Sessao;
 import br.com.votacao.model.Voto;
 import br.com.votacao.service.VotoService;
 import org.springframework.http.HttpStatus;
@@ -35,7 +34,7 @@ public class VotoController {
 		return votoService.createVoto(idPauta, idSessao, voto);
 	}
 
-	@GetMapping("v1/pautas/sessoes/votos/{idVoto}")
+	@GetMapping("v1/pautas/sessoes/votos/{id}")
 	@ResponseStatus(code = HttpStatus.OK)
 	public Voto findVotoById(@PathVariable Long id) {
 		return votoService.findById(id);

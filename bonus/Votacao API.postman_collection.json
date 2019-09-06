@@ -1,0 +1,338 @@
+{
+	"info": {
+		"_postman_id": "9e3bc091-40bb-44f3-9826-2624faa65a60",
+		"name": "Votacao API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Pautas",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api-votacao/v1/pautas",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api-votacao",
+						"v1",
+						"pautas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Pauta",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\": \"2\",\n\t\"nome\": \"Pauta Teste 2\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api-votacao/v1/pautas",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api-votacao",
+						"v1",
+						"pautas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find Pauta",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api-votacao/v1/pautas/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api-votacao",
+						"v1",
+						"pautas",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Pauta",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api-votacao/v1/pautas/sessoes/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api-votacao",
+						"v1",
+						"pautas",
+						"sessoes",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Sessoes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api-votacao/v1/pautas/sessoes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api-votacao",
+						"v1",
+						"pautas",
+						"sessoes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Sessao",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"dataInicio\": \"2019-09-05T00:00:00\",\n\t\"minutosValidade\": 60\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api-votacao/v1/pautas/1/sessoes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api-votacao",
+						"v1",
+						"pautas",
+						"1",
+						"sessoes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find Sessao",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api-votacao/v1/pautas/sessoes/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api-votacao",
+						"v1",
+						"pautas",
+						"sessoes",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Sessao",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api-votacao/v1/pautas/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api-votacao",
+						"v1",
+						"pautas",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Votos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api-votacao/v1/pautas/sessoes/votos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api-votacao",
+						"v1",
+						"pautas",
+						"sessoes",
+						"votos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Voto",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"cpf\": \"69309148004\",\n\t\"escolha\": false\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api-votacao/v1/pautas/1/sessoes/1/votos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api-votacao",
+						"v1",
+						"pautas",
+						"1",
+						"sessoes",
+						"1",
+						"votos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find Voto",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api-votacao/v1/pautas/sessoes/votos/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api-votacao",
+						"v1",
+						"pautas",
+						"sessoes",
+						"votos",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Voto",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api-votacao/v1/pautas/sessoes/votos/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api-votacao",
+						"v1",
+						"pautas",
+						"sessoes",
+						"votos",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Resultado Votacao",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api-votacao/v1/pautas/1/votacao",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api-votacao",
+						"v1",
+						"pautas",
+						"1",
+						"votacao"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

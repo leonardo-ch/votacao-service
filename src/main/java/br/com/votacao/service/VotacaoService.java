@@ -4,6 +4,7 @@ import br.com.votacao.domain.VotacaoDto;
 import br.com.votacao.exception.BusinessException;
 import br.com.votacao.exception.VotacaoNotFoundException;
 import br.com.votacao.exception.VotoNotFoundException;
+import br.com.votacao.kafka.KafkaSender;
 import br.com.votacao.model.Pauta;
 import br.com.votacao.model.Voto;
 import br.com.votacao.repository.SessaoRepository;
@@ -18,10 +19,12 @@ public class VotacaoService {
 
 	private final VotoRepository votoRepository;
 	private final SessaoRepository sessaoRepository;
+	private final KafkaSender kafkaSender;
 
-	public VotacaoService(VotoRepository votoRepository, SessaoRepository sessaoRepository) {
+	public VotacaoService(VotoRepository votoRepository, SessaoRepository sessaoRepository, KafkaSender kafkaSender) {
 		this.votoRepository = votoRepository;
 		this.sessaoRepository = sessaoRepository;
+		this.kafkaSender = kafkaSender;
 	}
 
 	public Voto save(final Voto voto) {
@@ -62,6 +65,13 @@ public class VotacaoService {
 
 		return findByPautaId.get();
 	}
+
+	public VotacaoDto getResultVotacao(Long id){
+		VotacaoDto votacaoPauta = buildVotacaoPauta(id);
+		kafkaSender.sendMessage(votacaoPauta);
+		return votacaoPauta;
+	}
+
 
 	public VotacaoDto buildVotacaoPauta(Long id) {
 		Optional<List<Voto>> votosByPauta = votoRepository.findByPautaId(id);
